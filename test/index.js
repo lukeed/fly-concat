@@ -52,7 +52,7 @@ test('fly-concat', t => {
 			},
 			d: function * () {
 				// test #4: obj w/ `map` & `base` (nested)
-				yield this.source(`${dir}/sub/*.js`).concat1({output: bun, map: 1, base: tmp}).target(tmp);
+				yield this.source(`${dir}/sub/**/*.js`).concat1({output: bun, map: 1, base: tmp}).target(tmp);
 				const arr1 = yield this.$.expand(`${tmp}/*`);
 				const out1 = yield this.$.find(bun, tmp);
 				const out2 = yield this.$.find(`${bun}.map`, tmp);
