@@ -5,8 +5,8 @@ const Concat = require('concat-with-sourcemaps');
 
 const defs = {
 	sep: '',
+	map: false,
 	base: '',
-	maps: false,
 	output: null
 };
 
@@ -22,7 +22,7 @@ module.exports = function () {
 			throw new Error('`fly-concat` did not receive an `output` filename.');
 		}
 
-		const bundle = new Concat(o.maps, o.output, o.sep);
+		const bundle = new Concat(o.map, o.output, o.sep);
 
 		for (const file of arr) {
 			bundle.add(file.base, file.data, file.map || file.sourceMap);
@@ -36,7 +36,7 @@ module.exports = function () {
 		// reset
 		this._.files = [];
 
-		if (o.maps && bundle.sourceMap) {
+		if (o.map && bundle.sourceMap) {
 			const mapFile = o.output.concat('.map');
 			// add link to sourcemap file
 			data += new Buffer(`\n//# sourceMappingURL=${mapFile}`);

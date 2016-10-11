@@ -29,35 +29,35 @@ test('fly-concat', t => {
 				yield this.start('b');
 			},
 			b: function * () {
-				// test #2: obj w/ `maps`
-				yield this.source(`${dir}/*.js`).concat1({output: bun, maps: 1}).target(tmp);
+				// test #2: obj w/ `map`
+				yield this.source(`${dir}/*.js`).concat1({output: bun, map: 1}).target(tmp);
 				const arr1 = yield this.$.expand(`${tmp}/*`);
 				const out1 = yield this.$.find(bun, tmp);
 				const out2 = yield this.$.find(`${bun}.map`, tmp);
-				t.equal(out1, tar, 'via obj w/ `maps`; create `output` file');
-				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `maps`; create a sourcemap');
+				t.equal(out1, tar, 'via obj w/ `map`; create `output` file');
+				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map`; create a sourcemap');
 				yield this.clear(tmp);
 				yield this.start('c');
 			},
 			c: function * () {
-				// test #3: obj w/ `maps` and `base`
-				yield this.source(`${dir}/*.js`).concat1({output: bun, maps: 1, base: tmp}).target(tmp);
+				// test #3: obj w/ `map` and `base`
+				yield this.source(`${dir}/*.js`).concat1({output: bun, map: 1, base: tmp}).target(tmp);
 				const arr1 = yield this.$.expand(`${tmp}/*`);
 				const out1 = yield this.$.find(bun, tmp);
 				const out2 = yield this.$.find(`${bun}.map`, tmp);
-				t.equal(out1, tar, 'via obj w/ `maps` & `base`; create `output` file');
-				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `maps` & `base`; create a sourcemap');
+				t.equal(out1, tar, 'via obj w/ `map` & `base`; create `output` file');
+				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map` & `base`; create a sourcemap');
 				yield this.clear(tmp);
 				yield this.start('d');
 			},
 			d: function * () {
-				// test #4: obj w/ `maps` & `base` (nested)
-				yield this.source(`${dir}/sub/*.js`).concat1({output: bun, maps: 1, base: tmp}).target(tmp);
+				// test #4: obj w/ `map` & `base` (nested)
+				yield this.source(`${dir}/sub/*.js`).concat1({output: bun, map: 1, base: tmp}).target(tmp);
 				const arr1 = yield this.$.expand(`${tmp}/*`);
 				const out1 = yield this.$.find(bun, tmp);
 				const out2 = yield this.$.find(`${bun}.map`, tmp);
-				t.equal(out1, tar, 'via obj w/ `maps` & `base` (nested); create `output` file');
-				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `maps` & `base` (nested); create a sourcemap');
+				t.equal(out1, tar, 'via obj w/ `map` & `base` (nested); create `output` file');
+				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map` & `base` (nested); create a sourcemap');
 				yield this.clear(tmp);
 			}
 		}
