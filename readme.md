@@ -1,43 +1,88 @@
 # fly-concat [![Build Status](https://travis-ci.org/lukeed/fly-concat.svg?branch=master)](https://travis-ci.org/lukeed/fly-concat)
 
-> My peachy module
+> Concatenate files with optional source maps.
 
 
 ## Install
 
 ```
-$ npm install --save fly-concat
+$ npm install --save-dev fly-concat
 ```
 
 
 ## Usage
 
 ```js
-const flyConcat = require('fly-concat');
+// flyfile.js
 
-flyConcat('unicorns');
-//=> 'unicorns & rainbows'
+exports.task = function * () {
+  // concat only; no sourcemap
+  yield this.source('src/*.js')
+    .concat('all.js')
+    .target('dist'); //=> 'dist/all.js'
+
+  // concat with sourcemap
+  yield this.source('src/*.js')
+    .concat({output: 'all.js', map: true})
+    .target('dist'); //=> 'dist/all.js', 'dist/all.js.map'
+
+  // concat nested source
+  yield this.source('src/js/*.js')
+    .concat({output: 'all.js', base: 'src'})
+    .target('dist'); //=> 'dist/all.js' vs 'dist/js/all.js'
+};
 ```
 
 
 ## API
 
-### flyConcat(input, [options])
+### .concat(options)
 
-#### input
+Passing `options` as a `String` is a shortcut for `{output: <value>}`. Only concatenation will occur with this configuration.
 
-Type: `string`
+#### options.base
 
-Lorem ipsum.
+Type: `string`<br>
+Default: `''`
 
-#### options
+Adjust the concatenated file's base directory. This is useful when your `source()` is nested deeper than your `target()`.
 
-##### foo
+```js
+// without \`base\`
+yield this.source('src/js/**/*.js')
+  .concat('all.js').target('dist/js');
+  //=> dist/js/client/all.js
+
+// with \`base\`
+yield this.source('src/js/**/*.js')
+  .concat({output: 'all.js', base: 'src/js').target('dist/js');
+  //=> dist/js/all.js
+```
+
+#### options.map
 
 Type: `boolean`<br>
 Default: `false`
 
-Lorem ipsum.
+Should a sourcemap be generated? If `true`, its name will be `{options.output}.map` and it will be a sibling of the concatenated file.
+
+```
+dist\
+  |- all.js
+  |- all.js.map
+```
+
+#### options.output
+
+Type: `string`<br>
+Default: `''`
+
+The name of your concatenated file.
+
+#### options.sep
+
+Type: `string`<br>
+Default: `''`
 
 
 ## License
