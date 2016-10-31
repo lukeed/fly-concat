@@ -28,7 +28,7 @@
     "concat-with-sourcemaps": "^1.0.4"
   },
   "devDependencies": {
-    "fly": "^2.0.0-beta",
+    "fly": "flyjs/fly",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "xo": "^0.14.0"
