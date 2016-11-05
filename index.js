@@ -24,6 +24,10 @@ module.exports = function () {
 			return error('Must receive an `output` filename.');
 		}
 
+		if (!arr.length) {
+			return error('No source files to concatenate!');
+		}
+
 		const bundle = new Concat(o.map, o.output, o.sep);
 
 		for (const file of arr) {
