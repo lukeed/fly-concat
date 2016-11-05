@@ -11,6 +11,8 @@ const defs = {
 };
 
 module.exports = function () {
+	const error = msg => this.emit('plugin_error', {plugin: 'fly-concat', error: msg});
+
 	this.plugin('concat', {every: 0}, function * (arr, o) {
 		if (typeof o === 'string') {
 			o = {output: o};
@@ -19,7 +21,7 @@ module.exports = function () {
 		o = Object.assign({}, defs, o);
 
 		if (!o.output) {
-			throw new Error('`fly-concat` did not receive an `output` filename.');
+			return error('Must receive an `output` filename.');
 		}
 
 		const bundle = new Concat(o.map, o.output, o.sep);
