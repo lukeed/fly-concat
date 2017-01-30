@@ -1,6 +1,6 @@
 'use strict';
 
-const resolve = require('path').resolve;
+const {resolve} = require('path');
 const Concat = require('concat-with-sourcemaps');
 
 const defs = {
@@ -12,6 +12,8 @@ const defs = {
 
 module.exports = function (fly) {
 	const notify = (str, obj) => fly.emit(`plugin_${str}`, Object.assign(obj, {plugin: 'fly-concat'}));
+	const warning = str => notify('warning', {warning: str});
+	const error = str => notify('error', {error: str});
 
 	this.plugin('concat', {every: 0}, function * (arr, o) {
 		if (typeof o === 'string') {
@@ -25,7 +27,7 @@ module.exports = function (fly) {
 		}
 
 		if (!arr.length) {
-			return error('No source files to concatenate!');
+			return warning('No source files to concatenate!');
 		}
 
 		const bundle = new Concat(o.map, o.output, o.sep);
