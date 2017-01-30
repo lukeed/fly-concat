@@ -629,6 +629,14 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+fly-clear@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/fly-clear/-/fly-clear-0.2.0.tgz#d7e5c5b61b793c2dd553264db609fff090ae050a"
+  dependencies:
+    arrify "^1.0.1"
+    bluebird "^3.4.7"
+    rimraf "^2.5.4"
+
 fly@flyjs/fly:
   version "2.0.10-beta"
   resolved "https://codeload.github.com/flyjs/fly/tar.gz/0edd4b0495fc342ec28074ace2f5441ed30340f3"

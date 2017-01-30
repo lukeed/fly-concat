@@ -1,10 +1,8 @@
 'use strict';
 
 const {join} = require('path');
-const del = require('rimraf');
 const test = require('tape');
 const Fly = require('fly');
-const fn = require('../');
 
 const bun = 'out.js';
 const dir = join(__dirname, 'fixtures');
@@ -15,6 +13,10 @@ test('fly-concat', t => {
 	t.plan(8);
 
 	const fly = new Fly({
+		plugins: [
+			require('fly-clear'),
+			require('../')
+		],
 		tasks: {
 			*a(f) {
 				// test #1: str
@@ -23,7 +25,7 @@ test('fly-concat', t => {
 				const out1 = yield f.$.find(bun, tmp);
 				t.equal(out1, tar, 'via str; create `output` file');
 				t.equal(arr1.length, 1, 'via str; do not create a sourcemap');
-				del.sync(tmp);
+				yield f.clear(tmp);
 				yield f.start('b');
 			},
 			*b(f) {
@@ -34,7 +36,7 @@ test('fly-concat', t => {
 				const out2 = yield f.$.find(`${bun}.map`, tmp);
 				t.equal(out1, tar, 'via obj w/ `map`; create `output` file');
 				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map`; create a sourcemap');
-				del.sync(tmp);
+				yield f.clear(tmp);
 				yield f.start('c');
 			},
 			*c(f) {
@@ -45,7 +47,7 @@ test('fly-concat', t => {
 				const out2 = yield f.$.find(`${bun}.map`, tmp);
 				t.equal(out1, tar, 'via obj w/ `map` & `base`; create `output` file');
 				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map` & `base`; create a sourcemap');
-				del.sync(tmp);
+				yield f.clear(tmp);
 				yield f.start('d');
 			},
 			*d(f) {
@@ -56,12 +58,10 @@ test('fly-concat', t => {
 				const out2 = yield f.$.find(`${bun}.map`, tmp);
 				t.equal(out1, tar, 'via obj w/ `map` & `base` (nested); create `output` file');
 				t.ok(arr1.length === 2 && out2.length, 'via obj w/ `map` & `base` (nested); create a sourcemap');
-				del.sync(tmp);
+				yield f.clear(tmp);
 			}
 		}
 	});
-
-	fn.call(fly, fly);
 
 	fly.start('a');
 });
