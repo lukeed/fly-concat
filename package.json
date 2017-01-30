@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "fly": "flyjs/fly",
+    "rimraf": "^2.5.4",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "xo": "^0.14.0"
