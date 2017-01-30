@@ -10,8 +10,8 @@ const defs = {
 	output: null
 };
 
-module.exports = function () {
-	const error = msg => this.emit('plugin_error', {plugin: 'fly-concat', error: msg});
+module.exports = function (fly) {
+	const notify = (str, obj) => fly.emit(`plugin_${str}`, Object.assign(obj, {plugin: 'fly-concat'}));
 
 	this.plugin('concat', {every: 0}, function * (arr, o) {
 		if (typeof o === 'string') {
@@ -35,7 +35,7 @@ module.exports = function () {
 		}
 
 		// if did not specify a `base`, assume first file's location
-		const dir = o.base ? resolve(this.root, o.base) : arr[0].dir;
+		const dir = o.base ? resolve(fly.root, o.base) : arr[0].dir;
 		// concat'd content
 		let data = bundle.content;
 
