@@ -14,20 +14,19 @@ $ npm install --save-dev fly-concat
 
 ```js
 // flyfile.js
-
-exports.task = function * () {
+exports.task = function * (fly) {
   // concat only; no sourcemap
-  yield this.source('src/*.js')
+  yield fly.source('src/*.js')
     .concat('all.js')
     .target('dist'); //=> 'dist/all.js'
 
   // concat with sourcemap
-  yield this.source('src/*.js')
+  yield fly.source('src/*.js')
     .concat({output: 'all.js', map: true})
     .target('dist'); //=> 'dist/all.js', 'dist/all.js.map'
 
   // concat nested source
-  yield this.source('src/js/*.js')
+  yield fly.source('src/js/*.js')
     .concat({output: 'all.js', base: 'src'})
     .target('dist'); //=> 'dist/all.js' vs 'dist/js/all.js'
 };
