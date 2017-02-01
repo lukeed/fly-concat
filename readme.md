@@ -48,12 +48,12 @@ Adjust the concatenated file's base directory. This is useful when your `source(
 
 ```js
 // without \`base\`
-yield this.source('src/js/**/*.js')
+yield fly.source('src/js/**/*.js')
   .concat('all.js').target('dist/js');
   //=> dist/js/client/all.js
 
 // with \`base\`
-yield this.source('src/js/**/*.js')
+yield fly.source('src/js/**/*.js')
   .concat({output: 'all.js', base: 'src/js').target('dist/js');
   //=> dist/js/all.js
 ```
